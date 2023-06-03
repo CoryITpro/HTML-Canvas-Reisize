@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            body {
+                background-color: black;
+                overflow: hidden;
+                margin: 0px;
+                top: 0px;
+                width: 100vw;
+                height: 100vh;
+                display: block;
+                position: relative;
+            }
+            #myCanvas {
+                position: absolute;
+                top: 45vh;
+                left: 40vw;
+                background-color: white;
+                transform: translateY(-50%) translateX(-50%);
+            }
+            #ratio-text {
+                font-size: min(8vw, 8vh);
+                font-family: Arial, Helvetica, sans-serif;
+                position: absolute;
+                top: 45vh;
+                left: 40vw;
+                transform: translateY(-50%) translateX(-50%);
+            }
+            #range1 {
+                position: fixed;
+                bottom: 5%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            #range2 {
+                transform: translateX(33%) rotate(90deg);
+                position: fixed;
+                top: 50%;
+                right: 0px;
+            }
+            .slider {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 200px;
+                cursor: pointer;
+                outline: none;
+                border-radius: 15px;
+                height: 10px;
+                background: #fff;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                height: 25px;
+                width: 25px;
+                background-color: #fff;
+                border-radius: 50%;
+                border: none;
+                transition: 0.2s ease-in-out;
+            }
+
+            .slider::-moz-range-thumb {
+                height: 25px;
+                width: 25px;
+                background-color: #fff;
+                border-radius: 50%;
+                border: none;
+                transition: 0.2s ease-in-out;
+            }
+
+            .slider::-webkit-slider-thumb:hover {
+                box-shadow: 0 0 0 10px #ffffff11;
+            }
+            .slider:active::-webkit-slider-thumb {
+                box-shadow: 0 0 0 13px #ffffff11;
+            }
+            .slider:focus::-webkit-slider-thumb {
+                box-shadow: 0 0 0 13px #ffffff11;
+            }
+
+            .slider::-moz-range-thumb:hover {
+                box-shadow: 0 0 0 10px #ffffff11;
+            }
+            .slider:active::-moz-range-thumb {
+                box-shadow: 0 0 0 13px #ffffff11;
+            }
+            .slider:focus::-moz-range-thumb {
+                box-shadow: 0 0 0 13px #ffffff11;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas"> </canvas>
+        <input
+            class="slider"
+            id="range1"
+            type="range"
+            min="100"
+            max="200"
+            value="200"
+        />
+        <input
+            class="slider"
+            id="range2"
+            type="range"
+            min="100"
+            max="200"
+            value="100"
+        />
+        <div id="ratio-text">200X100</div>
+    </body>
+    <script>
+        const ratio = { width: 200, height: 100 };
+        var text = document.querySelector("#ratio-text");
+        var c = document.getElementById("myCanvas");
+        c.width = 1000;
+        c.height = 1000;
+        var ctx = c.getContext("2d");
+
+        const draw = () => {
+            const windowRatio = window.innerWidth / window.innerHeight;
+            const canvasRatio = ratio.width / ratio.height;
+
+            if (canvasRatio > windowRatio) {
+                c.style.width = `80vw`;
+                const height = 90 / canvasRatio;
+                c.style.height = `${height}vw`;
+            } else {
+                c.style.height = `90vh`;
+                const width = 80 * canvasRatio;
+                c.style.width = `${width}vh`;
+            }
+
+            ctx.clearRect(0, 0, 1000, 1000);
+            ctx.beginPath();
+            ctx.lineWidth = 55;
+            ctx.strokeStyle = "red";
+            ctx.arc(500, 500, 420, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.save();
+
+            text.innerHTML = `${ratio.width}X${ratio.height}`;
+        };
+
+        draw();
+
+        document.querySelector("#range2").addEventListener("input", (event) => {
+            console.log(event.target.value);
+            ratio.height = event.target.value;
+            draw();
+        });
+
+        document.querySelector("#range1").addEventListener("input", (event) => {
+            console.log(event.target.value);
+            ratio.width = event.target.value;
+            draw();
+        });
+
+        window.addEventListener("resize", () => {
+            draw();
+        });
+    </script>
+</html>
