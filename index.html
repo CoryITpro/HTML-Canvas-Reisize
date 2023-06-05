@@ -115,13 +115,13 @@
         />
         <div id="ratio-text">200X100</div>
     </body>
+
     <script>
         const ratio = { width: 200, height: 100 };
-        var text = document.querySelector("#ratio-text");
-        var c = document.getElementById("myCanvas");
-        c.width = 1000;
-        c.height = 1000;
-        var ctx = c.getContext("2d");
+        var text = document.querySelector("#ratio-text"); // text container
+        var c = document.getElementById("myCanvas"); // canvas container
+        (c.width = 1000), (c.height = 1000); // set the canvas pixel points to 1000 * 1000.
+        var ctx = c.getContext("2d"); // canvas context
 
         const draw = () => {
             const windowRatio = window.innerWidth / window.innerHeight;
