@@ -20,141 +20,81 @@
     <a href="https://github.com/CoryITpro/HTML-Canvas-Reisize/issues">Request Feature</a>
   </p>
 </div>
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#problem-description">Problem Description</a></li>
-        <li><a href="#acceptance-criteria">Acceptance Criteria</a></li>
-        <li><a href="#technical-details">Technical Details</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
 <!-- ABOUT THE PROJECT -->
 
-# About The Project
+# About The UI
 
-Scaling canvas that takes up all horiz and vert space in the browser w/o scroll bars
+-   Main Canvas `containing the red circle`.
+-   Two sliders `right one control the height of the canvas - and bottom one is for the width`.
+-   The text - `Displays the pixel ratio of the canvas`.
 
-## Problem Description
+# About the script function
 
-I'd like a raw (no JS or CSS framework), client-side only HTML/CSS/JS implementation of this app: https://spec-app-375606.web.app/#/
+## initializing
 
-## Acceptance Criteria
+      const ratio = { width: 200, height: 100 };
 
--   The content should all stay on a single page as the browser window resizes w/o scrollbars.
--   The square with the circle and text should take up the maximum amount of space that it can based on its size, i.e. maintaining the aspect ratio.
--   The square should be able to be resized dynamically via the sliders.
--   The content inside the square should be sharp and clear as it's resized.
--   The square should be implemented as a canvas element; the circle and text should be painted inside the canvas.
+This is the initial value of canvas ratio.
 
-## Technical Details
+## draw function `main core of this project`.
 
-The reference app is built with a few lines of Flutter and I'm searching for the right way to get the same behavior in raw HTML, CSS and JS w/o the use of any frameworks. My goal is to have a template for canvas-based content at a fixed logical size that scales to fit the available space while maintaining the aspect ratio and not scrolling.
+-   first calculate the pixel ratio of window and canvas for the comparison.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+          const windowRatio = window.innerWidth / window.innerHeight;
+          const canvasRatio = ratio.width / ratio.height;
 
-<!-- GETTING STARTED -->
+-   compare ratios
+-   when canvasRatio > windowRatio
 
-# Getting Started
+    <img src="high.png" alt="Logo" >
 
-This is an example of how you may give instructions on setting up your flexible html cavas to the window ratios.
-To get a local copy up and running follow these simple example steps.
+          c.style.width = `80vw`;
+          const height = 90 / canvasRatio;
+          c.style.height = `${height}vw`;
 
-### Installation
+-   when canvasRatio < windowRatio
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+    <img src="wide.png" alt="Logo" >
 
-1. Clone the repo
-    ```sh
-    git clone https://github.com/CoryITpro/HTML-Canvas-Reisize.git
-    ```
-2. Install HTTP Sever
-    ```sh
-    npm install [-g] http-server
-    ```
-3. Enter this url in browser
-    ```html
-    https://localhost:8080/
-    ```
+          c.style.height = `90vh`;
+          const width = 80 \* canvasRatio;
+          c.style.width = `${width}vh`;
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+-   clear the canvas
 
-<!-- USAGE EXAMPLES -->
+          ctx.clearRect(0, 0, 1000, 1000);
 
-## Usage
+-   redraw the circle
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+          ctx.beginPath();
+          ctx.lineWidth = 55;
+          ctx.strokeStyle = "red";
+          ctx.arc(500, 500, 420, 0, 2 \* Math.PI);
+          ctx.stroke();
+          ctx.save();
 
-_For more examples, please refer to the [Documentation](https://spec-app-375606.web.app/#/)_
+-   redraw the ratio text
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+          text.innerHTML = `${ratio.width}X${ratio.height}`;
 
-<!-- CONTRIBUTING -->
+## event listenders `user control`.
 
-## Contributing
+-   once you make change in the right side slider
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+          document.querySelector("#range2").addEventListener("input", (event) => {
+            ratio.height = event.target.value;
+            draw();
+          });
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+-   once you make change in the bottom side slider
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+          document.querySelector("#range1").addEventListener("input", (event) => {
+              ratio.width = event.target.value;
+              draw();
+          });
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+-   and add event of resizing the browser window.
 
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-## Contact
-
-My Name - [@Mail](mailTo:csells@sellsbrothers.com) - [@Discord](https://discord.gg/csells#6692)
-
-Project Link: [https://github.com/CoryITpro/HTML-Canvas-Reisize](https://github.com/CoryITpro/HTML-Canvas-Reisize)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
--   [Choose an Open Source License](https://choosealicense.com)
--   [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
--   [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
--   [Malven's Grid Cheatsheet](https://grid.malven.co/)
--   [Img Shields](https://shields.io)
--   [GitHub Pages](https://pages.github.com)
--   [Font Awesome](https://fontawesome.com)
--   [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+          window.addEventListener("resize", () => {
+              draw();
+          });
