@@ -22,6 +22,10 @@
 </div>
 <!-- ABOUT THE PROJECT -->
 
+# Achievement
+
+To make the HTML5 canvas as big as possible, maintaining it's pixel ratio. And you can change the pixel ratio of canvas dynamically using two sliders at the right and bottom.
+
 # About The UI
 
 -   Main Canvas `containing the red circle`.
@@ -30,13 +34,13 @@
 
 # About the script function
 
-## initializing
+## Initializing
 
       const ratio = { width: 200, height: 100 };
 
-This is the initial value of canvas ratio.
+To set the canvas pixel ratio 200 \* 100 and it is used as the static variable representing the canvas ratio.
 
-## draw function `main core of this project`.
+## Draw function `main core of this project`.
 
 -   first calculate the pixel ratio of window and canvas for the comparison.
 
@@ -44,56 +48,55 @@ This is the initial value of canvas ratio.
           const canvasRatio = ratio.width / ratio.height;
 
 -   compare ratios
--   when canvasRatio > windowRatio
 
-    <img src="high.png" alt="Logo" >
+    -   when canvasRatio > windowRatio
 
-          c.style.width = `80vw`;
-          const height = 90 / canvasRatio;
-          c.style.height = `${height}vw`;
+          <img src="high.png" alt="Logo" >
 
--   when canvasRatio < windowRatio
+                c.style.width = `80vw`;  // set the width as full size
+                const height = 90 / canvasRatio, c.style.height = `${height}vw`; // Set height to match canvasRatio
 
-    <img src="wide.png" alt="Logo" >
+    -   when canvasRatio < windowRatio
 
-          c.style.height = `90vh`;
-          const width = 80 \* canvasRatio;
-          c.style.width = `${width}vh`;
+          <img src="wide.png" alt="Logo" >
 
--   clear the canvas
+                c.style.height = `90vh`; // set the height as full size
+                const width = 80 * canvasRatio, c.style.width = `${width}vh`; // Set width to match canvasRatio
+
+-   clear the canvas and this function is for the redrawing of the canvas.
 
           ctx.clearRect(0, 0, 1000, 1000);
 
 -   redraw the circle
 
           ctx.beginPath();
-          ctx.lineWidth = 55;
-          ctx.strokeStyle = "red";
-          ctx.arc(500, 500, 420, 0, 2 \* Math.PI);
+          ctx.lineWidth = 55;   // linewidth of the circle
+          ctx.strokeStyle = "red";   // color of the circle
+          ctx.arc(500, 500, 420, 0, 2 \* Math.PI);  // draw line which is radius is 420 at the (500, 500) UV position of the canvas.
           ctx.stroke();
           ctx.save();
 
--   redraw the ratio text
+-   this function is to change the center text to canvas ratio property.
 
           text.innerHTML = `${ratio.width}X${ratio.height}`;
 
-## event listenders `user control`.
+## Event listenders `user control`.
 
--   once you make change in the right side slider
+-   It's happen once you make change in the right side slider and the usage is to change the height value of static ratio variable.
 
-          document.querySelector("#range2").addEventListener("input", (event) => {
-            ratio.height = event.target.value;
-            draw();
-          });
+            document.querySelector("#range2").addEventListener("input", (event) => {
+              ratio.height = event.target.value;
+              draw();
+            });
 
--   once you make change in the bottom side slider
+-   It's happen once you make change in the bottom side slider and the usage is to change the width value of static ratio variable.
 
           document.querySelector("#range1").addEventListener("input", (event) => {
               ratio.width = event.target.value;
               draw();
           });
 
--   and add event of resizing the browser window.
+-   Redraw the canvas once you resize the browser window.
 
           window.addEventListener("resize", () => {
               draw();
