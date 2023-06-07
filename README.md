@@ -40,6 +40,14 @@ To make the HTML5 canvas as big as possible, maintaining it's pixel ratio. And y
 
 To set the canvas pixel ratio 200 \* 100 and it is used as the static variable representing the canvas ratio.
 
+      ctx.lineWidth = 55;
+
+to set the linewidth to 55
+
+      ctx.strokeStyle = "red";
+
+to set tht lineolor to red
+
 ## Draw function `main core of this project`.
 
 -   first calculate the pixel ratio of window and canvas for the comparison.
@@ -47,7 +55,7 @@ To set the canvas pixel ratio 200 \* 100 and it is used as the static variable r
           const windowRatio = window.innerWidth / window.innerHeight;
           const canvasRatio = ratio.width / ratio.height;
 
--   compare ratios
+-   compare ratios. `Why`: To check if the canvas is longer or thicker than the window.
 
     -   when canvasRatio > windowRatio
 
@@ -63,26 +71,24 @@ To set the canvas pixel ratio 200 \* 100 and it is used as the static variable r
                 c.style.height = `90vh`; // set the height as full size
                 const width = 80 * canvasRatio, c.style.width = `${width}vh`; // Set width to match canvasRatio
 
--   clear the canvas and this function is for the redrawing of the canvas.
+-   clear the canvas and this function is for the redrawing of the canvas. `Why`: to delete the previous circle.
 
           ctx.clearRect(0, 0, 1000, 1000);
 
--   redraw the circle
+-   redraw the circle. `Why`: to draw the resized circle.
 
           ctx.beginPath();
-          ctx.lineWidth = 55;   // linewidth of the circle
-          ctx.strokeStyle = "red";   // color of the circle
           ctx.arc(500, 500, 420, 0, 2 \* Math.PI);  // draw line which is radius is 420 at the (500, 500) UV position of the canvas.
           ctx.stroke();
-          ctx.save();
 
--   this function is to change the center text to canvas ratio property.
+-   this function is to change the center text to canvas ratio property. `Why`: to change the center ratio text.
 
           text.innerHTML = `${ratio.width}X${ratio.height}`;
 
 ## Event listenders `user control`.
 
 -   It's happen once you make change in the right side slider and the usage is to change the height value of static ratio variable.
+    `Why`: to change the ratio height value one user change the right slider.
 
             document.querySelector("#range2").addEventListener("input", (event) => {
               ratio.height = event.target.value;
@@ -90,13 +96,14 @@ To set the canvas pixel ratio 200 \* 100 and it is used as the static variable r
             });
 
 -   It's happen once you make change in the bottom side slider and the usage is to change the width value of static ratio variable.
+    `Why`: to change the ratio width value one user change the bottom slider.
 
           document.querySelector("#range1").addEventListener("input", (event) => {
               ratio.width = event.target.value;
               draw();
           });
 
--   Redraw the canvas once you resize the browser window.
+-   Redraw the canvas once you resize the browser window. `Why`: to redraw the canvas with changed innerwidth and innerheight of window.
 
           window.addEventListener("resize", () => {
               draw();
